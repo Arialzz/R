@@ -126,7 +126,21 @@ status<-factor(status,ordered=TRUE)
 patientdata<-data.frame(patientID,age,diabetes,status)
 str(patientdata)  --显示对象结构
 summary(patientdata)  --显示对象的统计概要
- 
+```
+
+#### 列表（list）  
+一些对象的有序集合，可能是若干向量、矩阵、数据框、其他列表的集合
+>
+```
+g<-"my first list"
+h<-c(12,14,23,45)
+j<-matrix(1:10,nrow=5)
+k<-c("one","two","three")
+mylist<-list(title=g,ages=h,j,k)  --创建list
+mylist
+mylist[[2]]  --输出第二个成分相当于 mylist[["ages"]]
+
+```
 
 
 
