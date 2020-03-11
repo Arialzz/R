@@ -61,6 +61,46 @@ dim3<-c("C1","C2","C3","C4")
 z<-array(1:24),c(2,3,4),dimnames=list(dim1,dim2.dim3))  --创建4个2*3的矩阵即一个2*3*4的数组
 z
 ```
+3.数组 
+>
+```
+dim1<-c("A1","A2")
+dim2<-c("B1","B2","B3")
+dim3<-c("C1","C2","C3","C4")
+z<-array(1:24),c(2,3,4),dimnames=list(dim1,dim2.dim3))  --创建4个2*3的矩阵即一个2*3*4的数组
+z
+```
+
+4.数据框：不同的列可以包含不同模式（数据型、字符型等），是一个更一般的矩阵，`data.frame()` 创建
+>
+```
+patientID<-c(1,2,3,4)
+age<-c(25,34,29,50)
+diabetes<-c("type1","type2","type2","type1")
+status<-c("poor","improved","excellent","poor")
+patientdata<-data.frame(patientID,age,diabetes,status)
+```
+>选取其中元素
+```
+patientdata[1:2]  --第一列和第二列  
+
+patientdata[c("diabetes","status")]  --diabetes和status两列  
+
+patientdata$age  --age一列  
+
+table(patientdata$diabetes,patientdata$status)  --diabetes和status的列联表
+
+```
+> case identifier可以通过rname指定
+```
+patientdata<-data.frame(patientID,age,diabetes,status,row.names=patientID)
+```
+
+#### 因子（factor）
+变量的分类
+
+| 名义型 | 有序型 | 连续型 |
+| 类别变量（没有顺序）| 一种顺序关系非数量关系|某个范围内任意值，同时表示数量和顺序|
 
 
  
