@@ -98,13 +98,35 @@ patientdata<-data.frame(patientID,age,diabetes,status,row.names=patientID)
 
 #### 因子（factor）
 变量的分类
+- 名义型：类别变量，没有顺序之分,如diabetes
+- 有序型：顺序关系而非数量关系，如status
+- 连续型：某一个范围内的任意值，同时表示顺序和数量，如age  
+名义型和有序型为因子（factor）
+`factor()`函数将因子中的类别转化为整数保存
+>
+```
+diabetes<-factor(diabetes)  --内部将其关联为：1=type1，2=type2
 
-| 名义型 | 有序型 | 连续型 |
-| 类别变量（没有顺序）| 一种顺序关系非数量关系|某个范围内任意值，同时表示数量和顺序|
+status<-factor(status,ordered=TRUE)  --关联1=excellent,2=improved,3=poor
 
+status<-factor(status,ordered=TRUE,levels=c("poor","improved","excellent"))  --指定levels覆盖默认排序
 
+sex<-factor(sex,levels=c(1,2),lables=c("male","female"))
+
+```
+
+> `factor()`的使用
+```
+patientID<-c(1,2,3,4)
+age<-c(25,34,29,50)
+diabetes<-c("type1","type2","type2","type1")
+status<-c("poor","improved","excellent","poor")
+diabetes<-factor(diabetes)
+status<-factor(status,ordered=TRUE)
+patientdata<-data.frame(patientID,age,diabetes,status)
+str(patientdata)  --显示对象结构
+summary(patientdata)  --显示对象的统计概要
  
-
 
 
 
