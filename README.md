@@ -142,6 +142,65 @@ mylist[[2]]  --输出第二个成分相当于 mylist[["ages"]]
 
 ```
 
+#### 导入数据  
+1.导入excel  
+- 将excel数据导出为csv格式  
+- 使用`mydataframe<-read.csv(file,opetion)`  
+>
+```
+mydataframe<-read.csv("D:/MyDownloads/tute1.csv,header=TRUE) 
+-- header表示文件是否在第一行包含了变量名的逻辑型变量
+````  
+**注意文件path中的斜杠必须是正斜杠/! 反斜杠\ 会被当作转义符**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
