@@ -178,8 +178,20 @@ detach(tu)  --解除绑定
 - 绘制点集（x,y）
 - type="b"表示同时绘制点和线  
 
-2.改变图形参数
-
+2.改变图形参数  
+- lyt改变线条格式
+- pch改变绘制点时的符号
+- lyt和pch可以直接添加在plot里面也可以用`par()`函数
+>
+```
+attach(tu)  --绑定数据框tu
+par(lyt=2)  --绘制虚线
+plot(GDP,Sales，pch=17) --点用三角形表示
+abline(lm(Sales~GDP))  --添加最优拟合曲线（regression）
+title("regression of Sales on GDP")  --添加标题
+detach(tu)  --解除绑定
+```  
+**`par()`要写在最前面，也可以直接在最前面设定`par(lyt=2,pch=17)`**
 
 
 
