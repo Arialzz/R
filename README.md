@@ -1,6 +1,6 @@
 # R
 R in action 
-## D1 第一章 
+## 第一章 
   #### 帮助
 `help.start()`  
 `help("函数名") or ?函数名`
@@ -151,7 +151,34 @@ mylist[[2]]  --输出第二个成分相当于 mylist[["ages"]]
 mydataframe<-read.csv("D:/MyDownloads/tute1.csv,header=TRUE) 
 -- header表示文件是否在第一行包含了变量名的逻辑型变量
 ````  
-**注意文件path中的斜杠必须是正斜杠/! 反斜杠\ 会被当作转义符**
+**注意文件path中的斜杠必须是正斜杠/! 反斜杠\ 会被当作转义符**  
+
+2.导入stata数据  
+>
+```
+library(foreign)
+mydataframe<-read.dta("D:/MyDownloads/tute1.dta")
+```
+
+### 第三章 图形参数
+使用以上导入的数据可以绘制图形
+>
+```
+attach(tu)  --绑定数据框tu
+plot(GDP,Sales) --绘制散点图：横轴是GDP，纵轴是Sales
+abline(lm(Sales~GDP))  --添加最优拟合曲线（regression）
+title("regression of Sales on GDP")  --添加标题
+detach(tu)  --解除绑定
+
+```
+**在数据框中不要忘记使用attach和detach**  
+
+1. `plot`函数的使用
+`plot(x,y,type="b")`   
+- 绘制点集（x,y）
+- type="b"表示同时绘制点和线  
+
+2.改变图形参数
 
 
 
