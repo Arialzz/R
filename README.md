@@ -191,7 +191,43 @@ abline(lm(Sales~GDP))  --添加最优拟合曲线（regression）
 title("regression of Sales on GDP")  --添加标题
 detach(tu)  --解除绑定
 ```  
-**`par()`要写在最前面，也可以直接在最前面设定`par(lyt=2,pch=17)`**
+**`par()`要写在最前面，也可以直接在最前面设定`par(lyt=2,pch=17)`**  
+
+3.颜色
+使用颜色下标、颜色名称、十六进制的颜色值、RGB或HSV值来指定颜色
+> `col=1`,`col="white"`,`col="#FFFFFF"`  
+>`colors()`可以返回所有可用颜色的名称  
+
+4.改变文本属性
+指定字号、字体和字样
+`par(font.lab=3,cex.lab=1.5,font.main=4,cex.main=2)`  
+- `font.lab`:坐标轴标签字体，1=常规，2=粗体，3=斜体，4=粗斜体，5=符号字体  
+- `font.main`：标题字体样式  
+- `cex.lab`:坐标轴标签缩放倍数，cex默认大小为1，1.5表示放大到默认值的1.5倍  
+- `cex.main`:标题的缩放倍数  
+
+5. 图形尺寸和边界尺寸  
+- `pin` 英寸表示的图形尺寸（宽和高）  
+- `mai`边界大小，单位为英寸，顺序为下左上右  
+- `mar`同边界大小，单位为英分
+> `par(pin=c(4,3),mai=c(1,.5,1,.2))`
+
+#### Example
+>
+```
+dose<-c(20,30,40,45,60)  
+drugA<-c(16,20,27,40,60)  
+drugB<-c(15,18,25,31,40)  
+
+opar<-par(no.readonly=TRUE)  --可以修改当前图形  
+par(pin=c(2,3))  --设置图形2*3英寸 
+par(lwd=2,cex=1.5)  --线条宽度为默认宽度的两倍，符号为默认的1.5倍  
+par(cex.axis=.75,font.axis=3)  --坐标轴刻度文本为斜体，默认大小的0.75  
+plot(dose,drugA,type="b",pch=19,lty=2,col="red")
+plot(dose,drugB,type="b",pch=23,lty=6,col="blue",bg="green")
+par(opar)
+```
+
 
 
 
