@@ -226,10 +226,47 @@ par(cex.axis=.75,font.axis=3)  --坐标轴刻度文本为斜体，默认大小�
 plot(dose,drugA,type="b",pch=19,lty=2,col="red")
 plot(dose,drugB,type="b",pch=23,lty=6,col="blue",bg="green")
 par(opar)
+```  
+6.添加文本，自定义坐标轴和图标  
 ```
+plot(dose,drugA,type="b",
+     col="red",lty=2,pch=2,lwd=2,
+     main="Clinical Trials for Drug A",
+     sub="This is hypothetical data",
+     xlab="Dosage",ylab="Drug Response",
+     xlim=c(0,60),ylim=c(0,70))
+```
+> 添加标题
+```
+title(main="My Title",col.main="red",
+      sub="My Subtitle",col.sub="blue",
+      xlab="My X label",ylab="My Y label",
+      col.lab="green",cex.lab=0.75))
+```  
 
+7.添加坐标轴  
+```
+x<-c(1:10)
+y<-x
+z<-10/x  --生成数据
+opar<-par(no.readonly=TRUE)  
 
+par(mar=c(5,4,4,8)+0.1)  --默认值为mar=c(5,4,4,2)+0.1
+plot(x,y,type="b",pch=21,col="red",yaxt="n",lty=3,ann=FALSE)  
+--ann(FALSE)用来移除默认标题和坐标轴标签，yaxt="n"和xaxt="n"分别禁用x轴和y轴
+lines(x,z,type="b",pch=22,col="blue",lty=2) --添加x对1/x的直线
 
+axis(2,at=x,labels=x,col.axis="red",las=2)  
+--绘制坐标轴：2表示在图形那边绘制坐标轴：1=下，2=左，3=上，4=右；at表示需要绘制刻度线的位置；las表示标签是否平行于（=0）或垂直于（=2）坐标轴  
+
+axis(4,at=z,labels=round(z,digits=2),col.axis="blue",las=2,cex.axis=0.7,tck=-.01)  
+
+mtext("y=1/x",side=4,line=3,cex.lab=1,las=2,col="blue")  --mtext用于在图形边界添加文本
+
+title("An Example of Creative Axes",xlab="X Value",ylab="Y=X")
+
+par(opar)
+```
 
 
 
