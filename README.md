@@ -441,6 +441,9 @@ total<-rbind(A,B)
 ```
 >如果A中有B没有的变量，需要删除A中的多余变量或者在B中创建新的变量并将其设置 为NA
 
+8.取子集
+`dataframe[row indices,column indices]`
+> `newdata<-leadership[,c[6:10]]`
 
 
 
