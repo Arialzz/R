@@ -300,32 +300,146 @@ minor.tick(nx=3,ny=3,tick.ratio=0.5)  --次要刻度线
 legend("topleft",inset=.05,title="Drug Type",c("A","B"),
        lty=c(1,2),pch=c(15,17),col=c("red","blue"))
        
+```  
+
+10.文本标注,数字标注和图形组合具体代码见书P58-67  
+
+
+### 第四章 基本数据管理  
+1. 创建新变量：使用算数运算符
+>
+```
+mydata<-data.frame(x1=c(2,2,6,4),
+                   x2=c(3,4,2,8))
+mydata<-transform(mydata,sumx=x1+x2,meanx=(x1+x2)/2) --在原data里面增加数据的和和平均数
+```
+2.重新编码变量：使用逻辑运算符
+>
+```
+manager<-c(1,2,3,4,5)
+data<-c("10/24/14","10/28/14","10/01/14","10/12/14","05/01/14")
+country<-c("US","US","UK","UK","UK")
+gender<-c("M","F","F","M","F")
+age<-c(32,45,25,39,99)
+q1<-c(5,3,3,3,2)
+q2<-c(4,5,5,3,2)
+q3<-c(5,2,5,4,1)
+q4<-c(5,5,5,NA,2)
+q5<-c(5,5,2,NA,1)
+leadership<-data.frame(manager,date,country,gender,age,q1,q2,q3,q4,q5,stringsAsFactors=FALSE) 
+--创建leadership数据框
+
+leadership$age[leadership$age==99]<-NA --将年龄为99的重编码为缺失值
+
+leadership$agecat[leadership$age>75]<-"Elder"
+leadership$agecat[leadership$age>=55&
+                  leadership$age<=75]<-"Middle Age"
+leadership$agecat[leadership$age<55]<-"Young" 
+--将连续型年龄变量age重编码为类别型变量
+或者：
+leadership<-within(leadership,{
+                   agecat<-NA                            --将每行都设置为缺失值然后依次执行之后的语句
+                   agecat[age>75]        <-"Elder"
+                   agecat[age>=55&age<=75<-"Middle Age"]
+                   agecat[age<55]        <-"Young"})
+
+```
+3.更改变量名
+`fix(leadership)`
+
+4.缺失值
+- 用函数`is.na()`检测缺失值知否存在
+>
+```
+is.na(leadership[,6:10]) --leadership的第六列到第10列
+```
+- 在分析中排除缺失值
+```
+x<-c(1,2,NA,3)
+y<-sum(x,na.rm=TRUE)
+```
+- 移除所有含有缺失值的观测
+```
+newdata<-na.omit(leadership)
 ```
 
+5.日期
+日期的默认输入格式是yyyy-mm-dd
+>
+```
+mydate<-as.Date(c("2017-06-22","2015-09-08"))
+```
+> 如果用mm/dd/yyyy格式读取数据：
+```
+strDates<-c("09/30/2019","03/04/2020")
+dates<-as.Date(strDates,"%m/%d/%Y")
+````
+>在leadership中：
+```
+myformat<-"%m/%d/%y" --y代表两位数年份，Y代表四位数年份
+leadership$date<-as.Date(leadership$date,myformat)
+```
+- tips：`Sys.Date()`可以返回当天日期，`date()`可以返回当前日期和时间  
+- 输出指定格式的日期并提取日期值中的某个部分
+```
+today<-Sys.Date()
+format(today,format="%B %d %Y")
+format(today,format="%A")
+```
+- 计算时间
+```
+startdate<-as.Date("2018-10-22")
+enddate<-as.Date("2020-2-3")
+days<-enddate-startdate
+days
+```
+> 使用`difftime()`也可计算时间间隔，以星期，天，时，分，秒表示
+```
+today<-Sys.Date()
+dob<-as.Date("1987-3-7")
+difftime(today,dob,units="weeks")
+```
+- 将日期型变量转换为字符型变量
+```
+strDates<-as.character(dates)
+```
 
+6.数据排序
+使用`order()`对数据框进行排序，默认升序，在排序变量前加减号可以得到降序结果
+```
+newdate<-leadership[order(leadership$age)]
+```
+```
+attach(leadership)
+newdate<-leadership[order(gender,age),] -- 各行按照女性到男性，同性别中按年龄升序排列
+detach(leadership)
+```
+```
+attach(leadership)
+newdate<-leadership[order(gender,-age),] --各行按照女性到男性，同性别中按年龄降序排列
+detach(leadership)
+```
 
+7.数据合并
 
+- 向数据集添加列:`merge()`
+```
+total<-merge(dataframeA,dataframeB,by="ID")
+--将A和B以ID联结：一种inner join
 
+total<-merge(dataframeA,dataframeB.by=c("ID","Country")) --以ID和国家联结
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```
+> 如果直接横向合并A和B，不需要公共索引：
+```
+total<-cbind(A,B)
+-- A,B 要有同样的行数以同样顺序排列
+```
+- 纵向合并两个数据，通常用于观测值的添加,A和B要有一样的变量但是顺序不一定相同
+```
+total<-rbind(A,B)
+```
+>如果A中有B没有的变量，需要删除A中的多余变量或者在B中创建新的变量并将其设置 为NA
 
 
 
