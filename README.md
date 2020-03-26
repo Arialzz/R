@@ -445,12 +445,65 @@ total<-rbind(A,B)
 `dataframe[row indices,column indices]`
 > `newdata<-leadership[,c[6:10]]`
 
+9.剔除变量
+```
+myvars<-names(leadership)%in%c("q3","q4")
+newdata<-leadership[!myvars]
+```
+- `names(leadership)`生成了一个包含所有变量名的字符型向量
+- `names(leadership)%in%c("q3","q4")`返回了一个逻辑向量：即`name(leadership)`中匹配q3和q4的为TRUE
+- ！将逻辑反转即匹配上q3和q4的为FALSE
+- `leadership[!myvars]`选择了逻辑值为TRUE的所以q3和q4被剔除
 
+或者在知道q3和q4是第八个和第九个变量的情况下可以使用：
+```
+newdata<-leadership[c(-8,-9)] --在某列下标之前加（-）会剔除那一列
+```
+或者可以使用：
+```
+leadership$q3<-leadership$q4<-NULL
+```
+10.选入观测
+```
+newdata<-leadership[1:3,] --选择前三行和所有列
 
+attach(leadership)
+newdata<-leadership[gender=="M"&age>30,] 
+detach(leadership) 
+-- 选择性别男性年龄30岁以上观测值
+```
+- 选择某个时间范围内的观测值
+```
+leadership$date<-as.Date(leadership$date,"%m/%d/%y")
+startdate<-as.Date("2014-08-10")
+enddate<-as.Date("2014-11-01")
+newdate<-leadership[which(leadership$date>=startdate&leadership$date<=enddate),]
+```
+- 使用`subset()`函数
+```
+newdata<-subset(leadership,age>=35|age<24,select=c(q1,q2,q3,q4))
+-- 选择age在35岁以上和24岁一下，保留变量q1到q4
+```
 
+```
+newdata<-subset(leadership,gender=="M"&age>25,select=gender:q4)
+--25岁以上所有男性，保留gender到q4（含）之间的所有列
+```
 
+10.随机抽样`sample()`
+```
+mysample<-leadership[sample(1:nrow(leadership),3,replace=FALSE),]
 
+```
+- 1:nrow(leadership)指抽样的pool，这里指leadership里面所有的观测（1-n）
+- 3指的是抽取的个数
+- replace=FALSE指的是无放回抽样
 
+11.使用SQL语句
+```
+library(sqldf)
+newdf<-sqldf("select * from mtcars where carb=1 order by mpg",row.names=TRUE)
+```
 
 
 
