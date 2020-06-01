@@ -505,6 +505,141 @@ library(sqldf)
 newdf<-sqldf("select * from mtcars where carb=1 order by mpg",row.names=TRUE)
 ```
 
+### 第五章 高级数据管理
+
+1. 数学函数和统计函数
+> 计算均值和标准差  
+- 简单的方式
+```
+x<-c(1,2,3,4,5,6,7,8)
+mean(x)
+sd(x)
+```
+- 使用数学函数
+```
+n<-length(x)
+meanx<-sum(x)/n
+css<-sum((x-meanx)^2)
+sdx<-sqrt(css/(n-1))
+meanx
+sdx
+```
+- css:修正平方和
+
+2.数据的标准化
+对矩阵中的某一列（变量）进行均值为0，标准差为1的标准化
+`newdata<-scale(mydata)`
+任意均值和标准差的标准化
+`newdata<-scale(mydata)*SD+M`
+M是想要的均值，SD是想要的标准差
+针对指定列使用：
+`newdata<-transform(mydata,myvar=scale(myvar)*10+50)`
+其中myvar是变量
+
+3.概率分布
+- 在区间[-3,3]上绘制标准正态曲线
+```
+x<-pretty(c(-3,3),30)
+y<-dnorm(x)
+plot(x,y,type="l",xlab="normal diviate",ylab="density",yaxs="i")
+pnorm(1.96) ---z=1.96左侧正太曲线下方面积
+qnorm(.9,mean=500,sd=100) ---均值为500标准差为100的正态分布的0.9分位点值
+rnorm(50,mean=50,sd=10) ---生成50个均值为50，标准差为10的正态随机数
+```
+- d:density(密度函数)；p:distribution function(分布函数)；q:quantile function(分位数函数)；r:生成随机数
+- 设置随机数种子方便之后重现
+```
+set.seed(1234)
+runif(5)
+--- runif()函数可以生成0-1区间上均匀分布的伪随机数
+```
+- 将函数应用于矩阵和数据框
+` apply(x,margin,fun...)`
+x：对象；margin=1：行，margin=2：列；fun：任意指定函数
+
+3. 综合
+```
+options(digits=2) ---限定输出小数点后两位
+
+student<-c("J D","A W","B M","D J","J M","C C","R Y",
+           "G K","J E","M R")
+math<-c(502,600,412,358,495,512,410,625,573,522)
+science<-c(95,99,80,82,75,78,69,88,90,95)
+english<-c(24,23,28,15,19,17,19,23,25,16)
+roster<-data.frame(student,math,science,english,stringsAsFactors=FALSE)
+--- 输入数据
+
+z<-scale(roster[,2:4])
+score<-apply(z,1,mean)
+roster<-cbind(roster,score)
+--- 将每个学科分数标准化至可比（scale）；计算各行的均值（mean）；将计算出来的均值增加到表格中（cbind）
+
+y<-quantile(score,c(.8,.6,.4,.2))  ---计算学生综合得分的百位数
+roster$grade[score>=y[1]]<-"A"
+roster$grade[score<y[1]&score>y[2]]<-"B"
+roster$grade[score<y[2]&score>y[3]]<-"C"
+roster$grade[score<y[3]&score>y[4]]<-"D"
+roster$grade[score<y[4]]<-"F"
+---将学生的分数重新编码为新的类别型变量，并创建新变量grade
+
+name<-strsplit((roster$student),"") ---以空格为界将学生姓名拆分
+lastname<-sapply(name,"[",2)
+firstname<-sapply(name,"[",1)
+roster<-cbind(firstname,lastname,roster[,-1]) ---在原表中加入姓、名删除student（-1）
+roster<-roster[order(lastname,firstname),]
+
+```
+
+4.控制流  
+重复执行某些语句或者在某些条件下执行某些语句  
+  - statement（语句）是一条单独的R语句或者一组复合语句(包括在{}中的一组语句，用；分隔)
+  - cond（条件）是一条最终被解释为TRUE或者FALSE的表达式
+  - expr（表达式）一条数值或字符串的求值语句
+  - seq（序列）是一个数值或者字符串序列
+
+4.1. 重复和循环
+  - for结构
+  循环重复执行一个语句知道某个变量的值不再包含在序列seq中为止
+  `for (var in seq) statement`
+  e.g. ` for (i in 1:10) print("hello")` :hello被输出10次
+  
+  - while结构
+  循环重复执行一个语句直到条件不为真为止
+  `while (cond) statement`
+  e.g. `i<-10
+        while(i>0){print("Hello");i<-i-1}`
+ 
+ 4.2.条件执行
+  - if-else
+  `if(cond)statement 
+   if(cond)statement1 else statement2`
+  e.g. `if(is.character(grade)) grade <-as.factor(grade) ---如果grade是一个字符向量，它就会被转换成一个因子
+        if(!is.factor(grade))grade<-as.factor(grade)else print("grade already is a factor")` ---如果grade不是一个因子（！）它会被转换成一个因子，否则会输出一段信息
+   - ifelse
+   `ifelse(cond,statement1,statement2) ---若cond为TRUE则执行statement1，否则执行statement2`
+   e.g
+   `ifelse(score>0.5,print("passed"),print("failed"))
+    outconme<-ifelse(score>0.5,"passed","failed")`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
